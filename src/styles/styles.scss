@@ -2,6 +2,9 @@
 
 $bg: #212121;
 $font: #fafafa;
+$second: #424242;
+$third: #616161;
+$active: #00c853;
 
 * {
 	box-sizing: border-box;
@@ -29,41 +32,6 @@ body {
 	justify-content: flex-end;
 }
 
-.hand {
-	padding: 5px;
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 5px;
-
-	.card {
-		cursor: pointer;
-	}
-}
-
-.buttons {
-	padding: 5px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-
-	.text {
-		font-size: 16px;
-		height: 30px;
-		padding: 5px;
-	}
-}
-
-.button {
-	background: #616161;
-	height: 30px;
-	padding: 5px;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 16px;
-}
-
 .card {
 	width: 85px;
 	height: 120px;
@@ -77,7 +45,7 @@ body {
 
 	&.active {
 		border: 2px solid $font;
-		box-shadow: 0 0 3px 0 #fafafa;
+		box-shadow: 0 0 3px 0 $font;
 	}
 
 	.value {
@@ -99,6 +67,19 @@ body {
 	}
 }
 
+@media (max-height: 686px) {
+	.card {
+		height: 100px;
+	}
+}
+
+@media (max-width: 370px) {
+	.card {
+		width: 75px;
+		height: 100px;
+	}
+}
+
 .palette {
 	padding: 5px;
 	width: 100%;
@@ -109,9 +90,9 @@ body {
 		display: block;
 		width: 45px;
 		height: 45px;
-		background: #616161;
+		background: $second;
 		border-radius: 23px;
-		border: 2px solid #9e9e9e;
+		border: 2px solid $third;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -129,7 +110,7 @@ body {
 		flex-direction: column;
 
 		&.win {
-			border: 2px solid green;
+			border: 2px solid $active;
 			border-radius: 5px;
 		}
 	}
@@ -202,8 +183,6 @@ body {
 	flex-grow: 1;
 
 	.card {
-		width: 90px;
-		height: 135px;
 		border: none;
 
 		&.active {
@@ -220,4 +199,41 @@ body {
 			font-size: 13px;
 		}
 	}
+}
+
+.hand {
+	padding: 5px;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 5px;
+
+	.card {
+		cursor: pointer;
+	}
+}
+
+.buttons {
+	padding: 5px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+
+	.text {
+		font-size: 16px;
+		height: 30px;
+		padding: 5px;
+	}
+}
+
+.button {
+	background: $second;
+	height: 30px;
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
 }

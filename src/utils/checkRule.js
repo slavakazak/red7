@@ -83,7 +83,7 @@ export default function checkRule(players, ruleCard) {
 			const winnerMaxWinCardColorValue = newPlayers[winner].maxWinCard ? newPlayers[winner].maxWinCard.color.value : 0
 			if (playerMaxWinCardValue > winnerMaxWinCardValue) {
 				winner = i
-			} else if (playerMaxWinCardValue == winnerMaxWinCardValue && playerMaxWinCardColorValue > winnerMaxWinCardColorValue) {
+			} else if (playerMaxWinCardValue === winnerMaxWinCardValue && playerMaxWinCardColorValue > winnerMaxWinCardColorValue) {
 				winner = i
 			}
 		}
