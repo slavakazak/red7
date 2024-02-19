@@ -4,217 +4,220 @@ $bg: #212121;
 $font: #fafafa;
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  user-select: none;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: $bg;
-  color: $font;
-  overflow: hidden;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
+	background-color: $bg;
+	color: $font;
+	overflow: hidden;
+	font-family: "Roboto", sans-serif;
+	font-weight: 400;
 }
 
 .App {
-  font-family: sans-serif;
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+	font-family: sans-serif;
+	width: 100vw;
+	height: 100vh;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 }
 
 .hand {
-  padding: 5px;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 5px;
+	padding: 5px;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 5px;
 
-  .card {
-    cursor: pointer;
-
-    &.active {
-      border: 2px solid $font;
-      box-shadow: 0 0 3px 0 #fafafa;
-    }
-  }
+	.card {
+		cursor: pointer;
+	}
 }
 
 .buttons {
-  padding: 5px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+	padding: 5px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 
-  .text {
-    font-size: 16px;
-    height: 30px;
-    padding: 5px;
-  }
+	.text {
+		font-size: 16px;
+		height: 30px;
+		padding: 5px;
+	}
 }
 
 .button {
-  background: #616161;
-  height: 30px;
-  padding: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+	background: #616161;
+	height: 30px;
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
 }
 
 .card {
-  width: 80px;
-  height: 120px;
-  border-radius: 5px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  font-size: 24px;
+	width: 85px;
+	height: 120px;
+	border-radius: 5px;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 5px;
+	font-size: 24px;
+	border: 2px solid $bg;
 
-  .value {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-  }
+	&.active {
+		border: 2px solid $font;
+		box-shadow: 0 0 3px 0 #fafafa;
+	}
 
-  .rule {
-    font-size: 11px;
-    font-weight: bold;
-    text-align: center;
-    height: 52px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+	.value {
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 30px;
+	}
+
+	.rule {
+		font-size: 11px;
+		font-weight: bold;
+		text-align: center;
+		height: 52px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 }
 
 .palette {
-  padding: 5px;
-  width: 100%;
-  display: flex;
-  align-items: center;
+	padding: 5px;
+	width: 100%;
+	display: flex;
+	align-items: center;
 
-  .profile {
-    display: block;
-    width: 45px;
-    height: 45px;
-    background: #616161;
-    border-radius: 23px;
-    border: 2px solid #9e9e9e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-  }
+	.profile {
+		display: block;
+		width: 45px;
+		height: 45px;
+		background: #616161;
+		border-radius: 23px;
+		border: 2px solid #9e9e9e;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 24px;
+		cursor: pointer;
+	}
 
-  .score {
-    padding: 2px;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-weight: bold;
-    flex-direction: column;
+	.score {
+		padding: 2px;
+		font-size: 14px;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		font-weight: bold;
+		flex-direction: column;
 
-    &.win {
-      border: 2px solid green;
-      border-radius: 5px;
-    }
-  }
+		&.win {
+			border: 2px solid green;
+			border-radius: 5px;
+		}
+	}
 
-  .cards {
-    flex-grow: 1;
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-  }
+	.cards {
+		flex-grow: 1;
+		display: flex;
+		gap: 5px;
+		justify-content: center;
+	}
 
-  .card {
-    width: 30px;
-    height: 45px;
+	.card {
+		width: 30px;
+		height: 45px;
 
-    &.acc_to_rule {
-      border: 2px solid $font;
-      box-shadow: 0 0 3px 0 #fafafa;
-    }
+		.value {
+			font-size: 24px;
+		}
 
-    .value {
-      font-size: 24px;
-    }
-
-    .rule {
-      display: none;
-    }
-  }
+		.rule {
+			display: none;
+		}
+	}
 }
 
 .board {
-  flex-grow: 1;
-  display: flex;
+	flex-grow: 1;
+	display: flex;
 }
 
 .memo {
-  padding: 5px;
-  height: 100%;
-  display: flex;
-  flex-direction: column-reverse;
-  cursor: pointer;
+	padding: 5px;
+	height: 100%;
+	display: flex;
+	flex-direction: column-reverse;
+	cursor: pointer;
 
-  .color {
-    width: 20px;
-    flex-grow: 1;
-    overflow: hidden;
-    font-size: 11px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    white-space: nowrap;
-    transition-duration: 0.1s;
+	.color {
+		width: 20px;
+		flex-grow: 1;
+		overflow: hidden;
+		font-size: 11px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: bold;
+		white-space: nowrap;
+		transition-duration: 0.1s;
 
-    &:first-child {
-      border-radius: 0 0 5px 5px;
-    }
+		&:first-child {
+			border-radius: 0 0 5px 5px;
+		}
 
-    &:last-child {
-      border-radius: 5px 5px 0 0;
-    }
-  }
+		&:last-child {
+			border-radius: 5px 5px 0 0;
+		}
+	}
 
-  &.active {
-    .color {
-      width: 240px;
-    }
-  }
+	&.active {
+		.color {
+			width: 240px;
+		}
+	}
 }
 
 .main_rule {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
 
-  .card {
-    width: 90px;
-    height: 135px;
+	.card {
+		width: 90px;
+		height: 135px;
+		border: none;
 
-    .value {
-      display: none;
-    }
+		&.active {
+			border: none;
+			box-shadow: none;
+		}
 
-    .rule {
-      height: 100%;
-      font-size: 13px;
-    }
-  }
+		.value {
+			display: none;
+		}
+
+		.rule {
+			height: 100%;
+			font-size: 13px;
+		}
+	}
 }
