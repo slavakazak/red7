@@ -7,245 +7,42 @@ $third: #616161;
 $active: #00c853;
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: $bg;
-  color: $font;
-  overflow: hidden;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
+	background-color: $bg;
+	color: $font;
+	overflow: hidden;
+	font-family: "Roboto", sans-serif;
+	font-weight: 400;
 }
 
 .App {
-  font-family: sans-serif;
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+	font-family: sans-serif;
+	width: 100vw;
+	height: 100vh;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	max-width: 800px;
+	margin: 0 auto
 }
 
-.card {
-  width: 85px;
-  height: 120px;
-  border-radius: 5px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  font-size: 24px;
-  border: 2px solid $bg;
-
-  &.active {
-    border: 2px solid $font;
-    box-shadow: 0 0 3px 0 $font;
-  }
-
-  .value {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-  }
-
-  .rule {
-    font-size: 11px;
-    font-weight: bold;
-    text-align: center;
-    height: 52px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+@media (min-width: 768px) {
+	.App {
+		padding: 10px;
+	}
 }
 
-@media (max-height: 686px) {
-  .card {
-    height: 100px;
-  }
-}
-
-@media (max-width: 370px) {
-  .card {
-    width: 75px;
-    height: 100px;
-  }
-}
-
-.palette {
-  padding: 5px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-
-  .profile {
-    display: block;
-    width: 45px;
-    height: 45px;
-    background: $second;
-    border-radius: 23px;
-    border: 2px solid $third;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-  }
-
-  .score {
-    padding: 2px;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-weight: bold;
-    flex-direction: column;
-
-    &.win {
-      border: 2px solid $active;
-      border-radius: 5px;
-    }
-  }
-
-  .cards {
-    flex-grow: 1;
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-  }
-
-  .card {
-    width: 30px;
-    height: 45px;
-
-    .value {
-      font-size: 24px;
-    }
-
-    .rule {
-      display: none;
-    }
-  }
-
-  .text {
-    flex-grow: 1;
-    font-size: 18px;
-    padding-left: 15px;
-  }
-}
-
-.board {
-  flex-grow: 1;
-  display: flex;
-}
-
-.memo {
-  padding: 5px;
-  height: 100%;
-  display: flex;
-  flex-direction: column-reverse;
-  cursor: pointer;
-
-  .color {
-    width: 20px;
-    flex-grow: 1;
-    overflow: hidden;
-    font-size: 11px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    white-space: nowrap;
-    transition-duration: 0.1s;
-
-    &:first-child {
-      border-radius: 0 0 5px 5px;
-    }
-
-    &:last-child {
-      border-radius: 5px 5px 0 0;
-    }
-  }
-
-  &.active {
-    .color {
-      width: 240px;
-    }
-  }
-}
-
-.main_rule {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-
-  .card {
-    border: none;
-
-    &.active {
-      border: none;
-      box-shadow: none;
-    }
-
-    .value {
-      display: none;
-    }
-
-    .rule {
-      height: 100%;
-      font-size: 13px;
-    }
-  }
-}
-
-.hand {
-  padding: 5px;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 5px;
-
-  .card {
-    cursor: pointer;
-  }
-}
-
-.buttons {
-  padding: 5px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-
-  .text {
-    font-size: 16px;
-    height: 30px;
-    padding: 5px;
-  }
-}
-
-.button {
-  background: $second;
-  height: 30px;
-  padding: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.game_end {
-  font-size: 18px;
-  padding: 5px;
-  text-align: center;
-}
+@import 'card';
+@import 'palette';
+@import 'board';
+@import 'hand';
+@import 'buttons';
+@import 'game_end';

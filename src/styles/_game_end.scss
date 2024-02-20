@@ -1,0 +1,12 @@
+.game_end {
+	font-size: 18px;
+	padding: 5px;
+	text-align: center;
+}
+
+@media (min-width: 768px) {
+	.game_end {
+		font-size: 24px;
+		padding: 10px;
+	}
+}

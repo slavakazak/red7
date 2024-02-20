@@ -1,0 +1,18 @@
+.hand {
+	padding: 5px;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 5px;
+
+	.card {
+		cursor: pointer;
+	}
+}
+
+@media (min-width: 768px) {
+	.hand {
+		padding: 10px;
+	}
+}
