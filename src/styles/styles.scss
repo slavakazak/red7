@@ -24,20 +24,15 @@ body {
 
 .App {
 	font-family: sans-serif;
-	width: 100vw;
-	height: 100vh;
+	width: 100dvw;
+	height: 100dvh;
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
 	max-width: 800px;
-	margin: 0 auto
-}
-
-@media (min-width: 768px) {
-	.App {
-		padding: 10px;
-	}
+	margin: 0 auto;
+	padding: 10px;
 }
 
 @import 'card';
