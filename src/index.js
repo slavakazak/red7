@@ -13,7 +13,7 @@ const firebaseConfig = {
 	messagingSenderId: "258043137459",
 	appId: "1:258043137459:web:02dac0ff6f16b59507cfc6"
 }
-const app = initializeApp(firebaseConfig)
+initializeApp(firebaseConfig)
 
 
 const root = createRoot(document.getElementById("root"))
