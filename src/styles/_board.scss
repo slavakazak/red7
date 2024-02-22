@@ -1,100 +1,110 @@
 .board {
-	flex-grow: 1;
-	display: flex;
+  flex-grow: 1;
+  display: flex;
 }
 
 .memo {
-	padding: 5px;
-	height: 100%;
-	display: flex;
-	flex-direction: column-reverse;
-	cursor: pointer;
+  padding: 5px;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  cursor: pointer;
 
-	.color {
-		width: 20px;
-		flex-grow: 1;
-		overflow: hidden;
-		font-size: 11px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-weight: bold;
-		white-space: nowrap;
-		transition-duration: 0.1s;
+  .color {
+    width: 20px;
+    flex-grow: 1;
+    overflow: hidden;
+    font-size: 11px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    white-space: nowrap;
+    transition-duration: 0.1s;
 
-		&:first-child {
-			border-radius: 0 0 5px 5px;
-		}
+    &:first-child {
+      border-radius: 0 0 5px 5px;
+    }
 
-		&:last-child {
-			border-radius: 5px 5px 0 0;
-		}
-	}
+    &:last-child {
+      border-radius: 5px 5px 0 0;
+    }
+  }
 
-	&.active {
-		.color {
-			width: 240px;
-		}
-	}
+  &.active {
+    .color {
+      width: 240px;
+    }
+  }
 }
 
 .main_rule {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
 
-	.card {
-		border: none;
+  .card {
+    border: none;
 
-		&.active {
-			border: none;
-			box-shadow: none;
-		}
+    &.active {
+      border: none;
+      box-shadow: none;
+    }
 
-		.value {
-			display: none;
-		}
+    .value {
+      display: none;
+    }
 
-		.rule {
-			height: 100%;
-			font-size: 13px;
-		}
-	}
+    .rule {
+      height: 100%;
+      font-size: 13px;
+    }
+  }
+}
+
+@media (max-width: 384px) {
+  .main_rule {
+    .card {
+      .rule {
+        font-size: 12px;
+      }
+    }
+  }
 }
 
 @media (min-width: 768px) {
-	.memo {
-		padding: 10px;
+  .memo {
+    padding: 10px;
 
-		.color {
-			width: 30px;
-			font-size: 14px;
+    .color {
+      width: 30px;
+      font-size: 14px;
 
-			&:first-child {
-				border-radius: 0 0 10px 10px;
-			}
+      &:first-child {
+        border-radius: 0 0 10px 10px;
+      }
 
-			&:last-child {
-				border-radius: 10px 10px 0 0;
-			}
-		}
+      &:last-child {
+        border-radius: 10px 10px 0 0;
+      }
+    }
 
-		&.active {
-			.color {
-				width: 320px;
-			}
-		}
-	}
+    &.active {
+      .color {
+        width: 320px;
+      }
+    }
+  }
 
-	.main_rule {
-		.card {
-			width: 110px;
-			height: 165px;
+  .main_rule {
+    .card {
+      width: 110px;
+      height: 165px;
 
-			.rule {
-				font-size: 16px;
-			}
-		}
-	}
+      .rule {
+        font-size: 16px;
+      }
+    }
+  }
 }

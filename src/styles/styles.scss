@@ -7,32 +7,32 @@ $third: #616161;
 $active: #00c853;
 
 * {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
-	user-select: none;
-	-webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-	background-color: $bg;
-	color: $font;
-	overflow: hidden;
-	font-family: "Roboto", sans-serif;
-	font-weight: 400;
+  background-color: $bg;
+  color: $font;
+  overflow: hidden;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
 }
 
 .App {
-	font-family: sans-serif;
-	width: 100dvw;
-	height: 100dvh;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	max-width: 800px;
-	margin: 0 auto;
-	padding: 10px;
+  font-family: sans-serif;
+  width: 100dvw;
+  height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px;
 }
 
 @import 'card';
@@ -40,4 +40,4 @@ body {
 @import 'board';
 @import 'hand';
 @import 'buttons';
-@import 'game_end';
+@import 'info';

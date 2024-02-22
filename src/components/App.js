@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Palette from "./Palette"
 import Hand from "./Hand"
 import Card from "./Card"
@@ -10,195 +10,149 @@ import { colors, red } from "../utils/const"
 import { getDatabase } from "firebase/database";
 
 export default function App() {
-	const deck = new Deck()
-	deck.shuffle()
-	const defaultPlayers = [
-		{ name: 'A', hand: deck.deal(7), palette: deck.deal(1), win: false, loss: false, numOfWinCards: 0, maxWinCard: null },
-		{ name: 'B', hand: deck.deal(7), palette: deck.deal(1), win: false, loss: false, numOfWinCards: 0, maxWinCard: null },
-		{ name: 'C', hand: deck.deal(7), palette: deck.deal(1), win: false, loss: false, numOfWinCards: 0, maxWinCard: null },
-		{ name: 'D', hand: deck.deal(7), palette: deck.deal(1), win: false, loss: false, numOfWinCards: 0, maxWinCard: null }
-	]
-	const defaultRuleCard = { color: colors[6] }
+  const deck = new Deck()
+  deck.shuffle()
+  const genPlayer = name => ({ name, hand: deck.deal(7), palette: deck.deal(1), win: false, loss: false, numOfWinCards: 0, maxWinCard: null })
 
-	const [players, setPlayers] = useState(defaultPlayers)
-	const [prevPlayers, setPrevPlayers] = useState(defaultPlayers)
+  const defaultPlayers = useRef([genPlayer('A'), genPlayer('B'), genPlayer('C'), genPlayer('D')])
+  const defaultRuleCard = useRef({ color: colors[6] })
 
-	const [current, setCurrent] = useState(0)
+  const [players, setPlayers] = useState(defaultPlayers.current)
+  const [prevPlayers, setPrevPlayers] = useState(defaultPlayers.current)
 
-	const [ruleCard, setRuleCard] = useState(defaultRuleCard)
-	const [prevRuleCard, setPrevRuleCard] = useState(defaultRuleCard)
+  const [current, setCurrent] = useState(0)
 
-	const [added, setAdded] = useState(false)
-	const [changed, setChanged] = useState(false)
+  const [ruleCard, setRuleCard] = useState(defaultRuleCard.current)
+  const [prevRuleCard, setPrevRuleCard] = useState(defaultRuleCard.current)
 
-	const [addToPaletteBtn, setAddToPaletteBtn] = useState(false)
-	const [changeRuleBtn, setChangeRuleBtn] = useState(false)
-	const [endTurnBtn, setEndTurnBtn] = useState(false)
-	const [selectCard, setSelectCard] = useState(true)
-	const [backBtn, setBackBtn] = useState(false)
+  const [startTurn, setStartTurn] = useState(false)
 
-	const [gameEnd, setGameEnd] = useState(false)
+  const [added, setAdded] = useState(false)
+  const [changed, setChanged] = useState(false)
+  //---------выбор карты---------------
+  function handClickHandler(i) {
+    return () => {
+      if (changed) return
+      const newPlayers = copyPlayers(players)
+      const isActive = newPlayers[current].hand[i].active
+      newPlayers[current].hand.forEach(card => card.active = false)
+      newPlayers[current].hand[i].active = !isActive
+      setPlayers(newPlayers)
+    }
+  }
+  //---------кнопка паса---------------
+  function passClickHandler() {
+    const newPlayers = copyPlayers(prevPlayers)
+    newPlayers[current].loss = true
+    endTurn(newPlayers, prevRuleCard)
+  }
+  //---------извлечь выбранную карту-----------
+  function removeActiveCard() {
+    const newPlayers = copyPlayers(players)
+    const activeCard = newPlayers[current].hand.find(card => card.active)
+    newPlayers[current].hand = newPlayers[current].hand.filter(card => !card.active)
+    activeCard.active = false
+    return { newPlayers, activeCard }
+  }
+  //---------кнопка добавления в палитру---------------
+  function addClickHandler() {
+    const { newPlayers: newPlayersToCheck, activeCard } = removeActiveCard()
+    newPlayersToCheck[current].palette.push(activeCard)
+    const newPlayers = checkRule(newPlayersToCheck, ruleCard)
+    setPlayers(newPlayers)
+    setAdded(true)
+  }
+  //---------кнопка смены правила---------------
+  function changeClickHandler() {
+    const { newPlayers: newPlayersToCheck, activeCard } = removeActiveCard()
+    setRuleCard(activeCard)
+    const newPlayers = checkRule(newPlayersToCheck, activeCard)
+    setPlayers(newPlayers)
+    setChanged(true)
+  }
+  //---------кнопка конца хода---------------
+  function endClickHandler() {
+    endTurn(players, ruleCard)
+  }
+  //---------кнопка назад---------------
+  function backClickHandler() {
+    setPlayers(copyPlayers(prevPlayers))
+    setRuleCard(copyCard(prevRuleCard))
+    setAdded(false)
+    setChanged(false)
+  }
+  //---------конец хода---------------
+  function endTurn(inputPlayers, inputRuleCard) {
+    if (inputPlayers.filter(player => !player.loss).length === 0) return
 
-	const [start, setStart] = useState(false)
-	//---------выбор карты---------------
-	function handClickHandler(i) {
-		return () => {
-			const newPlayers = copyPlayers(players)
-			const isActive = newPlayers[current].hand[i].active
-			newPlayers[current].hand.forEach(card => card.active = false)
-			if (changed || gameEnd) {
-				setPlayers(newPlayers)
-				return
-			}
-			newPlayers[current].hand[i].active = isActive ? false : true
-			setPlayers(newPlayers)
+    let next = current
+    while (true) {
+      next = (next + 1) % inputPlayers.length
+      if (!inputPlayers[next].loss) break
+    }
+    setCurrent(next)
 
-			if (isActive) {
-				setAddToPaletteBtn(false)
-				setChangeRuleBtn(false)
-				setSelectCard(!added || !changed)
-			} else {
-				setAddToPaletteBtn(!added)
-				setChangeRuleBtn(!changed)
-				setSelectCard(false)
-			}
-		}
-	}
-	//---------кнопка паса---------------
-	function passClickHandler() {
-		const newPlayers = copyPlayers(prevPlayers)
-		newPlayers[current].loss = true
-		endTurn(newPlayers, prevRuleCard)
-	}
-	//---------кнопка добавления в палитру---------------
-	function addClickHandler() {
-		const newPlayersToCheck = copyPlayers(players)
-		const activeCard = newPlayersToCheck[current].hand.find(card => card.active)
-		newPlayersToCheck[current].hand = newPlayersToCheck[current].hand.filter(card => !card.active)
-		newPlayersToCheck[current].palette.push(activeCard)
+    setAdded(false)
+    setChanged(false)
+    setStartTurn(false)
 
-		const { newPlayers } = checkRule(newPlayersToCheck, ruleCard)
+    const newPlayers = checkRule(inputPlayers, inputRuleCard)
+    setPlayers(newPlayers)
+    setPrevPlayers(copyPlayers(newPlayers))
+    setRuleCard(copyCard(inputRuleCard))
+    setPrevRuleCard(copyCard(inputRuleCard))
+  }
+  //---------кнопка начать ход---------------
+  function startClickHandler() {
+    setStartTurn(true)
+  }
+  //---------начало игры---------------
+  useEffect(() => {
+    const newPlayers = checkRule(defaultPlayers.current, defaultRuleCard.current)
+    setPlayers(newPlayers)
+    setPrevPlayers(copyPlayers(newPlayers))
 
-		setAdded(true)
-		setAddToPaletteBtn(false)
-		setChangeRuleBtn(false)
-		setSelectCard(!changed && newPlayers[current].hand.length > 0)
-		setEndTurnBtn(newPlayers[current].win)
-		setBackBtn(true)
+    const winner = newPlayers.findIndex(player => player.win)
+    const next = (winner + 1) % newPlayers.length
+    setCurrent(next)
 
-		setPlayers(newPlayers)
-	}
-	//---------кнопка смены правила---------------
-	function changeClickHandler() {
-		const newPlayersToCheck = copyPlayers(players)
-		const activeCard = newPlayersToCheck[current].hand.find(card => card.active)
-		newPlayersToCheck[current].hand = newPlayersToCheck[current].hand.filter(card => !card.active)
-		setRuleCard(activeCard)
+    const db = getDatabase()
+    console.log(db)
+  }, [])
 
-		const { newPlayers } = checkRule(newPlayersToCheck, activeCard)
-
-		setChanged(true)
-		setAddToPaletteBtn(false)
-		setChangeRuleBtn(false)
-		setSelectCard(false)
-		setEndTurnBtn(newPlayers[current].win)
-		setBackBtn(true)
-
-		setPlayers(newPlayers)
-	}
-	//---------кнопка конца хода---------------
-	function endClickHandler() {
-		endTurn(players, ruleCard)
-	}
-	//---------кнопка назад---------------
-	function backClickHandler() {
-		setPlayers(copyPlayers(prevPlayers))
-		setRuleCard(copyCard(prevRuleCard))
-		setAdded(false)
-		setChanged(false)
-		setAddToPaletteBtn(false)
-		setChangeRuleBtn(false)
-		setSelectCard(true)
-		setEndTurnBtn(false)
-		setBackBtn(false)
-	}
-	//---------конец хода---------------
-	function endTurn(inputPlayers, inputRuleCard) {
-		const notLossPlayers = inputPlayers.filter(player => !player.loss)
-		if (notLossPlayers.length === 0) return
-		if (notLossPlayers.length === 1) {
-			setGameEnd(true)
-		}
-		let next = current
-		while (true) {
-			next = (next + 1) % inputPlayers.length
-			if (!inputPlayers[next].loss) break
-		}
-		setCurrent(next)
-
-		setAdded(false)
-		setChanged(false)
-		setAddToPaletteBtn(false)
-		setChangeRuleBtn(false)
-		setSelectCard(inputPlayers[next].hand.length > 0)
-		setEndTurnBtn(false)
-		setBackBtn(false)
-
-		setStart(false)
-
-		const { newPlayers } = checkRule(inputPlayers, inputRuleCard)
-		setPlayers(newPlayers)
-		setPrevPlayers(copyPlayers(newPlayers))
-		setRuleCard(copyCard(inputRuleCard))
-		setPrevRuleCard(copyCard(inputRuleCard))
-	}
-	//---------кнопка начать ход---------------
-	function startClickHandler() {
-		setStart(true)
-	}
-	//---------начало игры---------------
-	useEffect(() => {
-		const { newPlayers, winner } = checkRule(players, ruleCard)
-		const next = (winner + 1) % players.length
-		setPlayers(newPlayers)
-		setPrevPlayers(copyPlayers(newPlayers))
-		setCurrent(next)
-
-		const db = getDatabase()
-		console.log(db)
-	}, [])
-
-	return (
-		<div className="App">
-			{players.map((player, i) => i > current ? <Palette key={i} player={player} /> : null)}
-			{players.map((player, i) => i < current ? <Palette key={i} player={player} /> : null)}
-			<div className="board">
-				<Memo />
-				<div className="main_rule">
-					<Card {...ruleCard} />
-				</div>
-			</div>
-			<Palette player={players[current]} />
-			{gameEnd ?
-				<div className="game_end">Победа</div>
-				: start ?
-					<>
-						<Hand cards={players[current].hand} clickHandler={handClickHandler} />
-						<div className="buttons">
-							<div className="button" style={{ backgroundColor: red }} onClick={passClickHandler}>Пас</div>
-							{addToPaletteBtn ? <div className="button" onClick={addClickHandler}>Добавить в палитру</div> : null}
-							{changeRuleBtn ? <div className="button" onClick={changeClickHandler}>Сменить правило</div> : null}
-							{selectCard ? <div className="text">Выберите карту</div> : null}
-							{endTurnBtn ? <div className="button" onClick={endClickHandler}>Завершить ход</div> : null}
-							{backBtn ? <div className="button" onClick={backClickHandler}>Назад</div> : null}
-						</div>
-					</>
-					:
-					<div className="buttons">
-						<div className="button" onClick={startClickHandler}>Начать ход</div>
-					</div>
-			}
-
-		</div>
-	)
+  return (
+    <div className="App">
+      {players.map((player, i) => i > current ? <Palette key={i} player={player} /> : null)}
+      {players.map((player, i) => i < current ? <Palette key={i} player={player} /> : null)}
+      <div className="board">
+        <Memo />
+        <div className="main_rule">
+          <Card {...ruleCard} />
+        </div>
+      </div>
+      <Palette player={players[current]} />
+      {players.filter(player => !player.loss).length === 1 ?
+        <>
+          <div className="info">Победа</div>
+          <div className="buttons"></div>
+        </>
+        : startTurn ?
+          <>
+            {players[current].hand.length > 0 && !changed && !players[current].hand.find(card => card.active) ? <div className="info">Выберите карту</div> : null}
+            <Hand cards={players[current].hand} clickHandler={handClickHandler} />
+            <div className="buttons">
+              <div className="button" style={{ backgroundColor: red }} onClick={passClickHandler}>Пас</div>
+              {players[current].hand.find(card => card.active) && !changed && !added ? <div className="button" onClick={addClickHandler}>Добавить в палитру</div> : null}
+              {players[current].hand.find(card => card.active) && !changed ? <div className="button" onClick={changeClickHandler}>Сменить правило</div> : null}
+              {players[current].win ? <div className="button" onClick={endClickHandler}>Завершить ход</div> : null}
+              {changed || added ? <div className="button" onClick={backClickHandler}>Назад</div> : null}
+            </div>
+          </>
+          :
+          <div className="buttons">
+            <div className="button" onClick={startClickHandler}>Начать ход</div>
+          </div>
+      }
+    </div>
+  )
 }
