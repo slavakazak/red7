@@ -1,12 +1,10 @@
 .info {
-  font-size: 18px;
-  padding: 5px;
-  text-align: center;
+	font-size: 18px;
+	text-align: center;
 }
 
 @media (min-width: 768px) {
-  .info {
-    font-size: 24px;
-    padding: 10px;
-  }
+	.info {
+		font-size: 24px;
+	}
 }

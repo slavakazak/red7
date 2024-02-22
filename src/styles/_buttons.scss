@@ -1,42 +1,30 @@
 .buttons {
-	padding: 5px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 	gap: 5px;
-
-	.text {
-		font-size: 16px;
-		height: 30px;
-		padding: 5px;
-	}
 }
 
 .button {
 	background: $second;
-	height: 30px;
 	padding: 5px;
 	border-radius: 5px;
 	cursor: pointer;
 	font-size: 16px;
+	color: $font;
+	text-decoration: none;
+	text-align: center;
 }
 
 @media (min-width: 768px) {
 	.buttons {
-		padding: 10px;
-
-		.text {
-			font-size: 20px;
-			height: 40px;
-			padding: 10px;
-		}
+		gap: 10px;
 	}
 
 	.button {
-		height: 40px;
 		padding: 10px;
 		border-radius: 10px;
-		font-size: 20px;
+		font-size: 24px;
 	}
 }

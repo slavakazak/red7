@@ -1,5 +1,4 @@
 .hand {
-	padding: 5px;
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -8,11 +7,5 @@
 
 	.card {
 		cursor: pointer;
-	}
-}
-
-@media (min-width: 768px) {
-	.hand {
-		padding: 10px;
 	}
 }

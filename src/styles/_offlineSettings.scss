@@ -1,0 +1,62 @@
+.players {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.player {
+	display: flex;
+	border-radius: 10px;
+	overflow: hidden;
+
+	input {
+		flex-grow: 1;
+		background: $second;
+		color: $font;
+		outline: none;
+		border: none;
+		display: block;
+		padding: 10px;
+		font-size: 24px;
+	}
+
+	.delete {
+		background: $third;
+		width: 48px;
+		position: relative;
+		cursor: pointer;
+
+		&::before, &::after {
+			content: '';
+			position: absolute;
+			height: 4px;
+			width: 30px;
+			border-radius: 2px;
+			background: $font;
+			left: 50%;
+			margin-left: -15px;
+			top: 50%;
+			margin-top: -2px;
+		}
+
+		&::before {
+			transform: rotate(45deg);
+		}
+
+		&::after {
+			transform: rotate(-45deg);
+		}
+	}
+}
+
+.offline-settings-buttons {
+	display: flex;
+	gap: 10px;
+
+	.button {
+		font-size: 24px;
+		padding: 10px;
+		flex-grow: 1;
+	}
+}

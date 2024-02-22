@@ -1,5 +1,4 @@
 export const secondColor = '#424242'
-export const red = '#d50000'
 export const colors = [
 	{ value: 1, name: 'purple', hue: '#aa00ff', rule: 'Больше всего карт номиналом меньше 4' },
 	{ value: 2, name: 'blue', hue: '#304ffe', rule: 'Больше всего карт, идущих по порядку' },

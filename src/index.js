@@ -2,7 +2,8 @@ import "./styles/styles.scss"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import App from "./components/App"
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app"
+import { BrowserRouter } from "react-router-dom"
 
 const firebaseConfig = {
 	apiKey: "AIzaSyD3i4bX-NLL-s9ynYZYJrN4B7_-Kt3fW3g",
@@ -20,6 +21,8 @@ const root = createRoot(document.getElementById("root"))
 
 root.render(
 	<StrictMode>
-		<App />
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
 	</StrictMode>
 )
