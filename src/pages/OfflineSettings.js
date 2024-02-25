@@ -1,38 +1,38 @@
 import Header from "../components/Header"
 import { colors } from "../utils/const"
 import { Link } from "react-router-dom"
-import { useContext } from "react"
-import { PlayersContext } from "../contexts/PlayersContext"
-import checkRule from "../utils/checkRule"
-import { copyPlayers } from "../utils/copy"
 
-export default function OfflineSettings() {
-	const players = useContext(PlayersContext)
+export default function OfflineSettings({ playersName, setPlayersName }) {
 
-	function startGame() {
-		const newPlayers = checkRule(players.get, { color: colors[6] })
-		players.set(newPlayers)
-		players.setPrev(copyPlayers(newPlayers))
+	function changeHandler(i) {
+		return e => setPlayersName(playersName.map((name, key) => key === i ? e.target.value : name))
+	}
 
-		const winner = newPlayers.findIndex(player => player.win)
-		const next = (winner + 1) % newPlayers.length
-		players.setCurrent(next)
+	function addClickHandler() {
+		setPlayersName([...playersName, ''])
+	}
+
+	function deleteClickHandler(i) {
+		return () => {
+			setPlayersName(playersName.filter((_, key) => key !== i))
+		}
 	}
 
 	return (
 		<>
 			<Header />
 			<div className="players">
-				{players.get.map(player => (
-					<div className="player">
-						<input type="text" placeholder="Имя игрока" value={player.name} />
-						<div className="delete" />
+				{playersName.map((name, i) => (
+					<div className="player" key={i}>
+						<input type="text" placeholder="Имя игрока" value={name} onChange={changeHandler(i)} />
+						{playersName.length > 2 ? <div className="delete" onClick={deleteClickHandler(i)} /> : null}
 					</div>
 				))}
+				{playersName.length < 4 ? <div className="button add-player" style={{ backgroundColor: colors[3].hue }} onClick={addClickHandler}>Добавить игрока</div> : null}
 			</div>
 			<div className="offline-settings-buttons">
 				<Link className="button" to="/" style={{ backgroundColor: colors[0].hue }}>Назад</Link>
-				<Link className="button" to="/offlineGame" style={{ backgroundColor: colors[1].hue }} onClick={startGame}>Начать</Link>
+				<Link className="button" to="/offlineGame" style={{ backgroundColor: colors[1].hue }}>Начать</Link>
 			</div>
 		</>
 	)
