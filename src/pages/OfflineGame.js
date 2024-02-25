@@ -83,7 +83,7 @@ export default function OfflineGame({ playersName }) {
 	}
 	//---------кнопка назад---------------
 	function backClickHandler() {
-		players.set(copyPlayers(prevPlayers))
+		setPlayers(copyPlayers(prevPlayers))
 		setRuleCard(copyCard(prevRuleCard))
 		setAdded(false)
 		setChanged(false)
