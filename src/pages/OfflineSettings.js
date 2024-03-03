@@ -24,7 +24,7 @@ export default function OfflineSettings({ playersName, setPlayersName }) {
 			<div className="players">
 				{playersName.map((name, i) => (
 					<div className="player" key={i}>
-						<input type="text" placeholder="Имя игрока" value={name} onChange={changeHandler(i)} />
+						<input type="text" className="name" placeholder="Имя игрока" value={name} onChange={changeHandler(i)} />
 						{playersName.length > 2 ? <div className="delete" onClick={deleteClickHandler(i)} /> : null}
 					</div>
 				))}

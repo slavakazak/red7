@@ -8,7 +8,6 @@ import { copyPlayers, copyCard } from "../utils/copy"
 import { colors } from "../utils/const"
 import Deck from "../utils/Deck"
 import { Link } from "react-router-dom"
-import { getDatabase } from "firebase/database"
 
 export default function OfflineGame({ playersName }) {
 	const defaultRuleCard = { color: colors[6] }
@@ -124,11 +123,6 @@ export default function OfflineGame({ playersName }) {
 
 		setCurrent(getCurrent(newPlayers))
 	}
-	//
-	useEffect(() => {
-		const db = getDatabase()
-		console.log(db)
-	}, [])
 	return (
 		<>
 			{players.map((player, i) => i > current ? <Palette key={i} player={player} /> : null)}

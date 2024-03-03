@@ -1,9 +1,16 @@
 import Card from "./Card"
+import { useState } from "react"
 
 export default function Palette({ player }) {
+	const [active, setActive] = useState(false)
+
+	function clickHandler() {
+		setActive(prev => !prev)
+	}
+
 	return (
 		<div className="palette">
-			<div className="profile">{player.name.substring(0, 2)}</div>
+			<div className={"profile" + (active ? ' active' : '')} onClick={clickHandler}>{active ? player.name : player.name.substring(0, 2)}</div>
 			{player.loss ?
 				<div className="text">Пас</div>
 				:
