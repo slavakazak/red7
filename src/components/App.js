@@ -4,6 +4,7 @@ import OfflineGame from "../pages/OfflineGame"
 import Menu from "../pages/Menu"
 import OfflineSettings from "../pages/OfflineSettings"
 import OnlineLobby from "../pages/OnlineLobby"
+import OnlineGame from "../pages/OnlineGame"
 
 export default function App() {
 	const [playersName, setPlayersName] = useState(['A', 'B'])
@@ -16,6 +17,7 @@ export default function App() {
 				<Route path="/offlineSettings" element={<OfflineSettings playersName={playersName} setPlayersName={setPlayersName} />} />
 				<Route path="/offlineGame" element={<OfflineGame playersName={playersName} />} />
 				<Route path="/onlineLobby" element={<OnlineLobby you={you} setYou={setYou} />} />
+				<Route path="/onlineGame" element={<OnlineGame you={you} />} />
 			</Routes>
 		</div>
 	)

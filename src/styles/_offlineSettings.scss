@@ -3,12 +3,22 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+
+	.text {
+		padding: 10px;
+		font-size: 24px;
+		text-align: center;
+	}
 }
 
 .player {
 	display: flex;
 	border-radius: 10px;
 	overflow: hidden;
+
+	&.you {
+		border: 2px solid $font;
+	}
 
 	.name {
 		flex-grow: 1;

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Palette from "../components/Palette"
 import Hand from "../components/Hand"
 import Card from "../components/Card"
@@ -8,21 +8,44 @@ import { copyPlayers, copyCard } from "../utils/copy"
 import { colors } from "../utils/const"
 import Deck from "../utils/Deck"
 import { Link } from "react-router-dom"
+import { getDatabase, ref, set, get, onValue } from "firebase/database"
 
-export default function OfflineGame({ playersName }) {
+export default function OnlineGame({ you }) {
 	const defaultRuleCard = { color: colors[6] }
 	const [ruleCard, setRuleCard] = useState(defaultRuleCard)
 	const [prevRuleCard, setPrevRuleCard] = useState(defaultRuleCard)
 
 	function genPlayers() {
-		const deck = new Deck()
-		deck.shuffle()
-		const genPlayer = name => ({ name, hand: deck.deal(7), palette: deck.deal(1), win: false, loss: false, numOfWinCards: 0, maxWinCard: null })
-		return checkRule(playersName.map(name => genPlayer(name)), defaultRuleCard)
+		const db = getDatabase()
+		get(ref(db, 'names')).then(snapshot => {
+			if (snapshot.exists()) {
+				const data = snapshot.val()
+				const playersName = []
+				for (let key in data) {
+					if (data[key].trim() !== '') {
+						playersName.push(data[key].trim())
+					}
+				}
+				const deck = new Deck()
+				deck.shuffle()
+				const genPlayer = name => ({ name, hand: deck.deal(7), palette: deck.deal(1), win: false, loss: false, numOfWinCards: 0, maxWinCard: null })
+				return checkRule(playersName.map(name => genPlayer(name)), defaultRuleCard)
+			} else {
+				console.log("No data available")
+			}
+		}).catch(error => {
+			console.error(error)
+		})
 	}
 
-	const [players, setPlayers] = useState(genPlayers())
-	const [prevPlayers, setPrevPlayers] = useState(copyPlayers(players))
+	const [players, setPlayers] = useState([])
+	const [prevPlayers, setPrevPlayers] = useState([])
+
+	useEffect(() => {
+		const newPlayers = genPlayers()
+		setPlayers(newPlayers)
+		setPrevPlayers(copyPlayers(newPlayers))
+	}, [])
 
 	function getCurrent(players) {
 		const winner = players.findIndex(player => player.win)
