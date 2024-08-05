@@ -21,6 +21,24 @@
     overflow: hidden;
   }
 
+  .profile-card {
+    display: block;
+    height: 100%;
+    background: $second;
+    border-radius: 5px;
+    border: 2px solid $third;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-wrap: break-word;
+    font-size: 24px;
+    padding: 0 10px;
+    flex-grow: 1;
+    max-width: calc(100% - 45px);
+    overflow-x: auto;
+    text-align: center;
+  }
+
   .score {
     width: 25px;
     padding: 2px;
@@ -73,6 +91,10 @@
       width: 60px;
       border-radius: 30px;
       font-size: 26px;
+    }
+
+    .profile-card {
+      max-width: calc(100% - 70px);
     }
 
     .score {
